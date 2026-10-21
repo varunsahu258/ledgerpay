@@ -21,14 +21,14 @@ def main() -> None:
     (SITE / "openapi.json").write_text(encoded, encoding="utf-8")
     shutil.copyfile(ROOT / "tests/results/invariants.json", SITE / "invariants.json")
     (SITE / ".nojekyll").touch()
-    index = SITE / "index.html"
-    html = index.read_text(encoding="utf-8")
+    api_reference = SITE / "api.html"
+    html = api_reference.read_text(encoding="utf-8")
     html = re.sub(
         r"https://cdn\.redoc\.ly/redoc/[^/]+/bundles/redoc\.standalone\.js",
         REDOC_CDN_URL,
         html,
     )
-    index.write_text(html, encoding="utf-8")
+    api_reference.write_text(html, encoding="utf-8")
     print(f"Built static docs and results page in {SITE}")
 
 

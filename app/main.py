@@ -2,7 +2,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 from starlette.middleware.base import RequestResponseEndpoint
@@ -34,6 +34,11 @@ app.mount(
     name="console",
 )
 demo_rate_limiter = PerIPWriteRateLimiter()
+
+
+@app.get("/", include_in_schema=False)
+async def landing_page() -> RedirectResponse:
+    return RedirectResponse(url="/console/", status_code=307)
 
 
 @app.middleware("http")
