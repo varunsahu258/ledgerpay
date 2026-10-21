@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: ledgerpay
+          POSTGRES_PASSWORD: ledgerpay
+          POSTGRES_DB: ledgerpay
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ledgerpay -d ledgerpay"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql+asyncpg://ledgerpay:ledgerpay@localhost:5432/ledgerpay
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+          python-version: "3.12"
+      - name: Install dependencies
+        run: uv sync --all-groups
+      - name: Lint, formatting, typing, migrations, and tests
+        run: |
+          make lint
+          make test
+      - name: Upload invariant report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ledgerpay-invariants
+          path: tests/results/invariants.json
+          if-no-files-found: ignore

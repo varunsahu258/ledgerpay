@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LedgerPay browser console</title>
+  <style>
+    :root{font:16px/1.65 system-ui,sans-serif;color:#17221d;background:#f3f7f4}body{max-width:760px;margin:7vh auto;padding:0 24px}main{background:white;padding:36px;border:1px solid #e1e9e3;border-radius:14px}h1{font-size:38px;line-height:1.12;letter-spacing:-1px;margin:0 0 12px}p{color:#5c6b62}.tag{color:#176f53;font:600 11px ui-monospace,monospace;letter-spacing:1.5px}code{padding:3px 6px;background:#edf3ef;border-radius:4px;color:#176f53}pre{padding:15px;background:#f4f7f5;border-radius:8px;overflow:auto}a{color:#176f53}.links{display:flex;gap:18px;flex-wrap:wrap;margin-top:24px}
+  </style>
+</head>
+<body><main>
+  <p class="tag">LOCAL APP · NOT A STATIC HOST FEATURE</p>
+  <h1>Open the working console</h1>
+  <p>The browser console talks to the FastAPI service and its local PostgreSQL database. A static GitHub Pages deployment contains the API reference and measured results, but it does not host the API.</p>
+  <p>To run the app, open a terminal in the project and execute:</p>
+  <pre>uv sync --python 3.12 --all-groups
+make demo</pre>
+  <p>Then open <a href="http://localhost:8000/console/">http://localhost:8000/console/</a>. This local demo creates sample accounts and transfers in your PostgreSQL volume; it does not make real payments.</p>
+  <div class="links"><a href="./">API reference</a><a href="./results.html">Concurrency results</a></div>
+</main></body></html>

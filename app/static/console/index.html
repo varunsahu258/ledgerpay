@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f5f7fb">
+  <title>LedgerPay Console</title>
+  <link rel="stylesheet" href="/console/styles.css">
+  <script src="/console/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/console/" aria-label="LedgerPay Console home"><span class="brand-mark">L</span><span>LedgerPay <small>CONSOLE</small></span></a>
+    <nav><a href="#accounts">Accounts</a><a href="#transfer">New transfer</a><a href="/docs">API docs</a><a href="/openapi.json">OpenAPI</a></nav>
+    <span class="connection"><i id="health-dot"></i><span id="health-label">Checking API</span></span>
+  </header>
+  <main>
+    <section class="hero">
+      <div><p class="eyebrow">LOCAL LEDGER WORKSPACE</p><h1>Move money.<br><em>Keep the books.</em></h1><p class="lede">A working front end for LedgerPay's double-entry transfer API. Every transfer is recorded in integer minor units and can be traced back to its ledger entries.</p></div>
+      <div class="hero-note"><span class="note-icon">↗</span><div><b>Safe to explore</b><p>Demo data is stored in your local PostgreSQL database. No real payments are made.</p></div></div>
+    </section>
+
+    <section class="stats" aria-label="Ledger overview">
+      <article><span class="stat-label">ACCOUNTS</span><strong id="account-count">—</strong><small>in this ledger</small></article>
+      <article><span class="stat-label">CURRENCIES</span><strong id="currency-count">—</strong><small>separate account groups</small></article>
+      <article><span class="stat-label">PAGE SIZE</span><strong>100</strong><small>accounts per request</small></article>
+      <article class="stat-callout"><span class="stat-label">LEDGER RULE</span><strong>Debit = credit</strong><small>every transfer balances to zero</small></article>
+    </section>
+
+    <div id="notice" class="notice" role="status" hidden></div>
+
+    <section class="workspace" id="accounts">
+      <div class="section-heading"><div><p class="eyebrow">YOUR LEDGER</p><h2>Accounts</h2></div><div class="heading-actions"><button class="button secondary" id="refresh-accounts" type="button">↻ Refresh</button> <button class="button primary compact" id="show-account-form" type="button">＋ New account</button></div></div>
+      <form id="account-form" class="panel create-account" hidden><label>Owner name<input id="owner-name" required maxlength="200" placeholder="e.g. Ada Lovelace"></label><label>Currency<select id="currency"><option>USD</option><option>EUR</option><option>GBP</option><option>INR</option><option>CAD</option><option>AUD</option></select></label><button class="button primary compact" type="submit">Create account</button></form>
+      <div class="panel account-panel">
+        <div class="table-wrap"><table><thead><tr><th>ACCOUNT</th><th>OWNER</th><th>CURRENCY</th><th class="right">BALANCE</th><th>CREATED</th></tr></thead><tbody id="account-rows"><tr><td colspan="5" class="empty">Loading accounts…</td></tr></tbody></table></div>
+        <div class="panel-footer"><span id="account-page-label">Showing first page</span><button class="text-button" id="load-more" type="button" hidden>Load more →</button></div>
+      </div>
+    </section>
+
+    <section class="workspace two-col" id="transfer">
+      <div>
+        <div class="section-heading"><div><p class="eyebrow">DOUBLE-ENTRY</p><h2>Create a transfer</h2></div></div>
+        <form id="transfer-form" class="panel form-panel">
+          <label>From account<select id="from-account" required><option value="">Select source</option></select></label>
+          <button class="swap" id="swap-accounts" type="button" aria-label="Swap accounts">⇅</button>
+          <label>To account<select id="to-account" required><option value="">Select destination</option></select></label>
+          <label>Amount <span class="hint">integer minor units (for example, 1250 = $12.50)</span><input id="amount" type="number" min="1" max="9007199254740991" step="1" placeholder="1250" required></label>
+          <label>Idempotency key <span class="hint">retries with this key return the original result</span><div class="key-row"><input id="idempotency-key" required maxlength="255"><button id="new-key" class="text-button" type="button">New key</button></div></label>
+          <button class="button primary" id="submit-transfer" type="submit">Send transfer <span>→</span></button>
+          <p class="form-footnote">Transfers across currencies and transfers to the same account are rejected. Insufficient funds return a 422 response.</p>
+        </form>
+      </div>
+      <aside>
+        <div class="section-heading"><div><p class="eyebrow">TRACE THE LEDGER</p><h2>Account activity</h2></div></div>
+        <div class="panel activity-panel">
+          <label>Choose account<select id="history-account"><option value="">Select account</option></select></label>
+          <div class="date-row"><label>From<input id="start-date" type="date"></label><label>To<input id="end-date" type="date"></label></div>
+          <button id="load-history" class="button secondary full" type="button">Load transactions</button>
+          <div id="history-list" class="history-list"><p class="empty">Select an account to see its ledger entries.</p></div>
+          <button id="history-more" class="text-button full" type="button" hidden>Load older entries ↓</button>
+        </div>
+      </aside>
+    </section>
+
+    <footer><span>LedgerPay · educational ledger demo</span><span><a href="/docs">Interactive API reference</a> · <a href="/openapi.json">OpenAPI JSON</a> · <a href="/health">Health check</a></span></footer>
+  </main>
+</body>
+</html>

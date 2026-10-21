@@ -1,0 +1,50 @@
+# Python bytecode and cache directories
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Python packaging and build output
+*.egg-info/
+.eggs/
+.wheels/
+dist/
+build/
+
+# uv / virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Tests, type checkers, linters, and coverage
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.coverage
+.coverage.*
+htmlcov/
+
+# Local environment and secrets; keep the safe template tracked
+.env
+.env.*
+!.env.example
+
+# macOS metadata
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+__MACOSX/
+
+# Editors and local tooling
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
