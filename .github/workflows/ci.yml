@@ -25,7 +25,7 @@ jobs:
       DATABASE_URL: postgresql+asyncpg://ledgerpay:ledgerpay@localhost:5432/ledgerpay
     steps:
       - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v10
+      - uses: astral-sh/setup-uv@v10.0.1
         with:
           enable-cache: true
           python-version: "3.12"
